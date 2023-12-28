@@ -111,7 +111,6 @@ public class FantasyGBO {
         case "5":
             try{
                 Workbook.getWinner("fantasy.csv");
-            
             break;
             }catch(Exception e){
                 System.out.println(e);

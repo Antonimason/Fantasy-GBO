@@ -10,7 +10,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.RichTextString;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 
@@ -241,9 +242,13 @@ public class Workbook {
         FileInputStream file = new FileInputStream(new File(path));
         HSSFWorkbook workbook = new HSSFWorkbook(file);
         Sheet sheet = workbook.getSheetAt(0);
+        FormulaEvaluator evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+        DataFormatter df = new DataFormatter();
           for (Row row : sheet) {
                 // Itera sobre las celdas de la fila actual
-                if(row.getCell(5).equals(row.getCell(6))){
+                Cell cellTotal = evaluator.evaluateInCell(row.getCell(5));
+                Cell cellResult = row.getCell(6);
+                if(df.formatCellValue(cellTotal).equals(df.formatCellValue(cellResult))){
                     System.out.println("Contestant " + row.getCell(1) + " is the winner, therefore Player " + row.getCell(0) + " won.");
                     break;
                 }
@@ -256,4 +261,5 @@ public class Workbook {
         }
         return null;
     }
+
 }
