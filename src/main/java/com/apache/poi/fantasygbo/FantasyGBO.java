@@ -10,6 +10,7 @@ public class FantasyGBO {
         System.out.println("Press \n 1 - Add Player and Contestants \n 2 - Add weekly points \n 3 - Check prediction \n 4 - check result \n 5 - Check the winner \n 6 - Exit");
         Scanner playerSelection = new Scanner(System.in);
         String starting = playerSelection.nextLine();
+        playerSelection.close();
         return starting;
     }
     
@@ -18,6 +19,7 @@ public class FantasyGBO {
         System.out.println("Press \n 1 - to add points in the week  \n 2 - to add points in the week 2 \n 3 - to add points in the week 3 \n 4 - to add points in the result list \n  5 - Exit");
         Scanner weekSelection = new Scanner(System.in);
         String week = weekSelection.nextLine();
+        weekSelection.close();
         return week;
     }
     public static void main(String[] args) {
@@ -63,6 +65,7 @@ public class FantasyGBO {
 
                 System.out.println("Players and Contestants have been added to the list");
                 Workbook.workbook(name1, name2, name3, contestant1, contestant2, contestant3, contestant4, contestant5, contestant6, contestant7, contestant8, contestant9);
+                playerName.close();
                 break;
             }catch(Exception e){
                 System.out.println(e);
@@ -111,6 +114,7 @@ public class FantasyGBO {
         case "5":
             try{
                 Workbook.getWinner("fantasy.csv");
+            
             break;
             }catch(Exception e){
                 System.out.println(e);

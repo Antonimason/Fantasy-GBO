@@ -88,6 +88,7 @@ public class Workbook {
             FileOutputStream fileOut = new FileOutputStream("fantasy.csv");
             workbook.write(fileOut);
             fileOut.close();
+            workbook.close();
             System.out.println("Your csv file has been created");
         } catch (IOException e) {
             System.out.println(e);
@@ -172,6 +173,7 @@ public class Workbook {
                     weekNumber = 6;
                     break;
                 default:
+                    points.close();
                     return "Sorry, your week is not allowed";
             }
             
@@ -179,53 +181,34 @@ public class Workbook {
             HSSFWorkbook workbook = new HSSFWorkbook(filemodi);
             Sheet sheet = workbook.getSheetAt(0);
             
-            HSSFRow row1 = (HSSFRow) sheet.getRow((short) 1);
-            System.out.println("How many points will you add to " + row1.getCell(1));
-            int p1 = points.nextInt();
-            row1.createCell(weekNumber).setCellValue(p1);
-            
-            HSSFRow row2 = (HSSFRow) sheet.getRow((short) 2);
-            System.out.println("How many points will you add to " + row2.getCell(1));
-            int p2 = points.nextInt();
-            row2.createCell(weekNumber).setCellValue(p2);
-            
-            HSSFRow row3 = (HSSFRow) sheet.getRow((short) 3);
-            System.out.println("How many points will you add to " + row3.getCell(1));
-            int p3 = points.nextInt();
-            row3.createCell(weekNumber).setCellValue(p3);
-            
-            HSSFRow row4 = (HSSFRow) sheet.getRow((short) 4);
-            System.out.println("How many points will you add to " + row4.getCell(1));
-            int p4 = points.nextInt();
-            row4.createCell(weekNumber).setCellValue(p4);
-            
-            HSSFRow row5 = (HSSFRow) sheet.getRow((short) 5);
-            System.out.println("How many points will you add to " + row5.getCell(1));
-            int p5 = points.nextInt();
-            row5.createCell(weekNumber).setCellValue(p5);
-            
-            HSSFRow row6 = (HSSFRow) sheet.getRow((short) 6);
-            System.out.println("How many points will you add to " + row6.getCell(1));
-            int p6 = points.nextInt();
-            row6.createCell(weekNumber).setCellValue(p6);
-            
-            HSSFRow row7= (HSSFRow) sheet.getRow((short) 7);
-            System.out.println("How many points will you add to " + row7.getCell(1));
-            int p7 = points.nextInt();
-            row7.createCell(weekNumber).setCellValue(p7);
-            
-            HSSFRow row8 = (HSSFRow) sheet.getRow((short) 8);
-            System.out.println("How many points will you add to " + row8.getCell(1));
-            int p8 = points.nextInt();
-            row8.createCell(weekNumber).setCellValue(p8);
-            
-            HSSFRow row9 = (HSSFRow) sheet.getRow((short) 9);
-            System.out.println("How many points will you add to " + row9.getCell(1));
-            int p9 = points.nextInt();
-            row9.createCell(weekNumber).setCellValue(p9);
+            //Week points
+            if(weekNumber >= 2 || weekNumber <= 4){
+                for(int i = 1; i <= 9; i++){
+                    HSSFRow row = (HSSFRow) sheet.getRow((short) i);
+                    int point;
+                    do{
+                       System.out.println("How many points will you add to " + row.getCell(1));
+                       point = points.nextInt();
+                       if(point < 0 || point > 5) System.out.println("Sorry, you must enter a number between 0 and 5.");
+                    }while(point < 0 || point > 5);
+                    row.createCell(weekNumber).setCellValue(point);
+                }
+                //result points
+            }else if(weekNumber == 6){
+                for(int i = 1; i <= 9; i++){
+                    HSSFRow row = (HSSFRow) sheet.getRow((short) i);
+                    int point;
+                    do{
+                       System.out.println("How many points will you add to " + row.getCell(1));
+                       point = points.nextInt();
+                       if(point < 0 || point > 15) System.out.println("Sorry, you must enter a number between 0 and 15.");
+                    }while(point < 0 || point > 15);
+                    row.createCell(weekNumber).setCellValue(point);
+                }
+            }
             
             filemodi.close();
-            
+            points.close();
             FileOutputStream outputStream = new FileOutputStream(path);
             workbook.write(outputStream);
             workbook.close();
